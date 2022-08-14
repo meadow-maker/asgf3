@@ -4,4 +4,5 @@ metadata:
   name: grp10-config
   namespace: final
 data:
-  image: https://asgf3s3.s3.amazonaws.com/image1.jpg
+  grp10_members: "Mahtabul Bari, Sanjam Malhotra and Tejaswi Sindhuri"
+  grp10_image: https://asgf3s3.s3.amazonaws.com/image1.jpg
