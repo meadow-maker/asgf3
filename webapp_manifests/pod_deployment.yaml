@@ -1,52 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grp10-pod
+  name: simple-webapp-mysql
   labels:
-    app.kubernetes.io/app: webapp
-    app.kubernetes.io/name: grp10-pod
+    app: example-app
+    name: simple-webapp-mysql
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/app: webapp
-      app.kubernetes.io/name: grp10-pod
-  replicas: 1
+      app: example-app
+      name: simple-webapp-mysql
+  replicas: 2
   template:
     metadata:
       labels:
-        app.kubernetes.io/app: webapp
-        app.kubernetes.io/name: grp10-pod
+        app: example-app
+        name: simple-webapp-mysql
     spec:
-      serviceAccountName: clo
       containers:
-      - name: grp10-pod
-        image: 376056455079.dkr.ecr.us-east-1.amazonaws.com/asgfecr:bariswebapp
-        volumeMounts:
-        - name: db-secret-volume
-          mountPath: "/opt/app-secret-volumes"
-          readOnly: true
-        envFrom:
+       - name: simple-webapp-mysql
+         image: 376056455079.dkr.ecr.us-east-1.amazonaws.com/asgfecr:imgv1
+         ports:
+         - containerPort: 81
+         envFrom:
           - secretRef:
-              name: grp10-secret
-        env:
-        - name: IMAGE_URL_PASS
-          valueFrom: 
-            configMapKeyRef:
-              name: webapp-config
-              key: IMAGE_URL_PASS
-        - name: IMAGE_URL_FAIL
-          valueFrom: 
-            configMapKeyRef:
-              name: webapp-config
-              key: IMAGE_URL_FAIL
-        - name: GROUP
-          valueFrom: 
-            configMapKeyRef:
-              name: webapp-config
-              key:  GROUP
-        ports:
-        - containerPort: 8080
-      volumes:
-        - name: db-secret-volume
-          secret:
-            secretName: grp10-secret
+             name: grp10-secret
+          - configMapRef: 
+             name: grp10-config
